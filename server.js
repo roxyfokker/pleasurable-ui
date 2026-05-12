@@ -28,8 +28,13 @@ app.get('/', async function (request, response) {
   response.render('index.liquid')
 })
   
-app.get('/instrumenten', async function (requestc, response) {
-  response.render('overzicht.liquid')
+app.get('/instrumenten', async function (request, response) {
+  
+  const apiResponse = await fetch('https://fdnd-agency.directus.app/items/preludefonds_instruments')
+  const apiResponseJSON = await apiResponse.json()
+  const instruments = apiResponseJSON.data
+
+  response.render('overzicht.liquid', { instruments })
 })
 
 app.get('/actielog', async function (request, response) {
