@@ -1,0 +1,78 @@
+{% layout 'layouts/base.liquid'%}
+{% block content %}
+
+<main>
+    <header>
+        {% comment %} hier komt de selected banner {% endcomment %}
+    </header>
+
+    <form class="form uitlenen" action="/instrumenten/{{ instrument.key }}/uitlenen" method="post">
+        <label for="student" class="input-veld"> Wie leent het?
+            <input type="text" id="student" name="studentName" placeholder="Volledige naam" required></label>
+        
+        <label for="docent" class="input-veld">Naam docent
+            <input type="text" id="docent" name="docentName" placeholder=" " required></label>
+
+        <input type="hidden" name="id" value="{{ instrument.id }}">
+        <input type="hidden" name="key" value="{{ instrument.key }}">
+        <input type="hidden" name="actie" value="Uitlenen">
+        
+        <button type="submit" class="btn btn-primary button-uitlenen">
+            {% if melding == 'success' %}✅ De status is aangepast!
+            {% elsif melding == 'error' %}❌ Er ging iets mis!
+            {% else %}Bevestig uitlening
+            {% endif %}
+        </button>
+    </form>
+</main>
+
+<script type="module">
+
+    const uitleenForm = document.querySelector(".uitlenen")
+    const uitleenBtn = uitleenForm.querySelector("button")
+
+    uitleenForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault()
+
+        uitleenBtn.classList.add("loading")
+        uitleenBtn.classList.remove("error") // Verwijder oude error class indien aanwezig
+        uitleenBtn.textContent = "laden..."
+        uitleenBtn.disabled = true // Voorkom dubbele clicks
+
+        try {
+            let formData = new FormData(uitleenForm);
+
+            const response = await fetch(uitleenForm.action, {
+                method: uitleenForm.method,
+                body: new URLSearchParams(formData)
+            })
+
+            if (!response.ok) {
+                throw new Error('Er ging iets mis op de server.')
+            }
+
+            const responseData = await response.text()
+
+            const parser = new DOMParser()
+            const responseDOM = parser.parseFromString(responseData, 'text/html')
+
+            // Succes state
+            uitleenBtn.classList.remove("loading")
+            uitleenBtn.textContent = "✅ De status is aangepast!"
+
+        } catch (error) {
+            // Error state
+            console.error("Fout tijdens versturen:", error)
+            
+            uitleenBtn.classList.remove("loading")
+            uitleenBtn.classList.add("error") // Voeg een error class toe voor CSS styling
+            uitleenBtn.textContent = "Oeps! Probeer het opnieuw."
+
+        } finally {
+            uitleenBtn.disabled = false
+        }
+    })
+</script>
+
+{% endblock %}

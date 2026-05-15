@@ -1,0 +1,58 @@
+{% layout 'layouts/base.liquid' %}
+{% block content %}
+<main class="main-statusoverzicht">
+    <section class="stats" aria-label="Statistieken instrumenten">
+        <dl class="stats-totaal">
+            <div class="stats-item">
+                <dt class="label">Totaal aantal instrumenten</dt>
+                <dd class="value">{{ totalItems }}</dd>
+            </div>
+
+            <div class="stats-item property-of">
+                <dt class="label">Preludefonds</dt>
+                <dd class="value">{{ totalPrelude }}</dd>
+                <dt class="label">Extern</dt>
+                <dd class="value">{{ totalAnders }}</dd>
+            </div>
+        </dl>
+        <dl class="stats-status">
+            <div class="stats-item">
+                <dt>Beschikbaar</dt>
+                <dd>{{ totalBeschikbaar }}</dd>
+                    {% assign totalBeschikbaarInPercentage = totalBeschikbaar | times: 100.0 | divided_by: totalItems | round %}
+                <dd class="stats-percentage">{{ totalBeschikbaarInPercentage }}%</dd>
+            </div>
+
+            <div class="stats-item">
+                <dt>In reparatie</dt>
+                <dd>{{ totalReparatie }}</dd>
+                    {% assign totalReparatieInPercentage = totalReparatie | times: 100.0 | divided_by: totalItems | round %}
+                <dd class="stats-percentage">{{ totalReparatieInPercentage }}%</dd>
+            </div>
+
+            <div class="stats-item">
+                <dt>Uitgeleend</dt>
+                <dd>{{ totalUitgeleend }}</dd>
+                    {% assign totalUitgeleendInPercentage = totalUitgeleend | times: 100.0 | divided_by: totalItems | round %}
+                <dd class="stats-percentage">{{ totalUitgeleendInPercentage }}%</dd>
+            </div>
+        </dl>
+    </section>
+
+    <section class="preview-sectie inventory">
+        <p>Inventaris</p>
+        <h2>Overzichttabel preview</h2>
+        <iframe src="" frameborder="0"></iframe>
+        <a href="/instrumenten">Bekijk het hele overzicht</a>
+    </section>
+
+    <section class="preview-sectie activiteitenlog">
+        <p>Activiteitenlog</p>
+        <h2>Recente acties op instrumenten</h2>
+        <iframe src="" frameborder="0"></iframe>
+        <a href="/actielog">Bekijk het hele overzicht</a>
+    </section>
+</main>
+    
+    
+{% endblock %}
