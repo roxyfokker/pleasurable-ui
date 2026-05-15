@@ -34,8 +34,9 @@ app.get('/instrumenten', async function (request, response) {
   const apiResponseJSON = await apiResponse.json()
   const instruments = apiResponseJSON.data
 
-  response.render('overzicht.liquid', { instruments })
+  response.render('overzicht.liquid', { instruments, page: 'overzicht' })
 })
+
 
 app.get('/actielog', async function (request, response) {
   response.render('actielog.liquid')

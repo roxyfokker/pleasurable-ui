@@ -1,17 +1,17 @@
-{% render 'partials/head.liquid' %}
+{% render 'partials/head.liquid', page: page %}
 
-<main>
-    <div class="kop">
-        <p>Instrument</p>
-        <p>Status</p>
-    </div>
+<main class="overzicht">
+  <div class="kop">
+    <p>Instrument</p>
+    <p>Status</p>
+  </div>
 
-    <ul> 
-      {% for instrument in instruments %}
-        <li>
-          <p>{{ instrument.name }}</p>
-          <p>{{ instrument.status }}</p>
-        </li>
-      {% endfor %}
-    </ul>
+  <ul class="lijst">
+    {% for instrument in instruments %}
+      <li class="rij">
+        <p>{{ instrument.name }}</p>
+        <p>{{ instrument.status }}</p>
+      </li>
+    {% endfor %}
+  </ul>
 </main>
