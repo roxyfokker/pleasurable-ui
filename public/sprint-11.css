@@ -1,0 +1,32 @@
+.overzicht {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+
+    & .kop,
+    & .rij {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    & .kop {
+        font-weight: var(--font-weight-bold);
+        border-bottom: var(--border-width-md) solid var(--color-neutral-darkest);
+    }
+
+    & .lijst {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    & .rij {
+        border-bottom: var(--border-width-sm) solid var(--color-neutral-light);
+    }
+
+    & p {
+        margin: 0;
+    }
+}
