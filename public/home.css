@@ -6,6 +6,21 @@
     width: 80vw;
     margin: auto;
     align-items: center;
+
+    details{
+        font-size: var(--font-size-h2);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    summary{
+        cursor: pointer;
+        text-decoration: underline;
+        color: var(--color-text-brand);
+    }
+
+    h2{
+        font-size: var(--font-size-h3);
+    }
 }
 
 /* ------------ Statusoverzicht --------------------------------*/
