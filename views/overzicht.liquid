@@ -1,0 +1,355 @@
+{% layout 'layouts/base.liquid' %}
+
+{% block breadcrumbs %}
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/instrumenten">Instrumenten</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+
+<main class="overzicht">
+  <nav class="filters">
+    <form action="/instrumenten" method="GET" class="filter-form desktop-only-form">
+      <details class="desktop-details">
+        <summary class="instrument-filter">
+          <span>
+            {%- if soort == '' %}Filters{% elsif not soort %}Filters{% else %}{{ soort }}{% endif -%}
+          </span>
+        </summary>
+
+        <section class="desktop-menu">
+          <button type="submit" name="instrument" value="" class="all-btn">Alle instrumenten</button>
+
+          <div class="grid">
+            <section>
+              <h3>Snaar</h3>
+              <ul>
+                <li><button type="submit" name="instrument" value="Gitaar akoestisch">Gitaar</button></li>
+                <li><button type="submit" name="instrument" value="Gitaar driekwart">Gitaar 3/4</button></li>
+                <li><button type="submit" name="instrument" value="Basgitaar">Basgitaar</button></li>
+                <li><button type="submit" name="instrument" value="Elektrische gitaar">Elektrische gitaar</button></li>
+                <li><button type="submit" name="instrument" value="Cello">Cello</button></li>
+                <li><button type="submit" name="instrument" value="Viool">Viool</button></li>
+                <li><button type="submit" name="instrument" value="Ukelele">Ukelele</button></li>
+                <li><button type="submit" name="instrument" value="Harp">Harp</button></li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Blaas</h3>
+              <ul>
+                <li><button type="submit" name="instrument" value="Blokfluit">Blokfluit</button></li>
+                <li><button type="submit" name="instrument" value="Dwarsfluit">Dwarsfluit</button></li>
+                <li><button type="submit" name="instrument" value="Hoorn">Hoorn</button></li>
+                <li><button type="submit" name="instrument" value="Altsaxofoon">Altsaxofoon</button></li>
+                <li><button type="submit" name="instrument" value="Tenorsaxofoon">Tenorsaxofoon</button></li>
+                <li><button type="submit" name="instrument" value="Baritonsaxofoon">Baritonsaxofoon</button></li>
+                <li><button type="submit" name="instrument" value="Trompet">Trompet</button></li>
+                <li><button type="submit" name="instrument" value="Trombone">Trombone</button></li>
+                <li><button type="submit" name="instrument" value="Hobo">Hobo</button></li>
+                <li><button type="submit" name="instrument" value="Bugel">Bugel</button></li>
+                <li><button type="submit" name="instrument" value="Klarinet">Klarinet</button></li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Toets</h3>
+              <ul>
+                <li><button type="submit" name="instrument" value="Keyboard">Keyboard</button></li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Slag</h3>
+              <ul>
+                <li><button type="submit" name="instrument" value="Darbukha">Darbukha</button></li>
+                <li><button type="submit" name="instrument" value="Cajon">Cajon</button></li>
+              </ul>
+            </section>
+
+            <section>
+              <h3>Overig</h3>
+              <ul>
+                <li><button type="submit" name="instrument" value="Accordeon">Accordeon</button></li>
+              </ul>
+            </section>
+          </div>
+        </section>
+      </details>
+    </form>
+
+    <form action="/instrumenten" method="GET" class="filter-form mobile-only-form">
+      <select name="instrument" onchange="this.form.submit()" class="mobile-btn">
+        <option
+          class="all-option"
+          value=""
+          {% if not soort %}
+            selected
+          {% endif %}
+        >
+          Alle instrumenten
+        </option>
+
+        <optgroup label="Snaar">
+          <option
+            value="Gitaar akoestisch"
+            {% if soort == 'Gitaar akoestisch' %}
+              selected
+            {% endif %}
+          >
+            Gitaar
+          </option>
+          <option
+            value="Gitaar driekwart"
+            {% if soort == 'Gitaar driekwart' %}
+              selected
+            {% endif %}
+          >
+            Gitaar 3/4
+          </option>
+          <option
+            value="Basgitaar"
+            {% if soort == 'Basgitaar' %}
+              selected
+            {% endif %}
+          >
+            Basgitaar
+          </option>
+          <option
+            value="Elektrische gitaar"
+            {% if soort == 'Elektrische gitaar' %}
+              selected
+            {% endif %}
+          >
+            Elektrische gitaar
+          </option>
+          <option
+            value="Cello"
+            {% if soort == 'Cello' %}
+              selected
+            {% endif %}
+          >
+            Cello
+          </option>
+          <option
+            value="Viool"
+            {% if soort == 'Viool' %}
+              selected
+            {% endif %}
+          >
+            Viool
+          </option>
+          <option
+            value="Ukelele"
+            {% if soort == 'Ukelele' %}
+              selected
+            {% endif %}
+          >
+            Ukelele
+          </option>
+          <option
+            value="Harp"
+            {% if soort == 'Harp' %}
+              selected
+            {% endif %}
+          >
+            Harp
+          </option>
+        </optgroup>
+
+        <optgroup label="Blaas">
+          <option
+            value="Blokfluit"
+            {% if soort == 'Blokfluit' %}
+              selected
+            {% endif %}
+          >
+            Blokfluit
+          </option>
+          <option
+            value="Dwarsfluit"
+            {% if soort == 'Dwarsfluit' %}
+              selected
+            {% endif %}
+          >
+            Dwarsfluit
+          </option>
+          <option
+            value="Hoorn"
+            {% if soort == 'Hoorn' %}
+              selected
+            {% endif %}
+          >
+            Hoorn
+          </option>
+          <option
+            value="Altsaxofoon"
+            {% if soort == 'Altsaxofoon' %}
+              selected
+            {% endif %}
+          >
+            Altsaxofoon
+          </option>
+          <option
+            value="Tenorsaxofoon"
+            {% if soort == 'Tenorsaxofoon' %}
+              selected
+            {% endif %}
+          >
+            Tenorsaxofoon
+          </option>
+          <option
+            value="Baritonsaxofoon"
+            {% if soort == 'Baritonsaxofoon' %}
+              selected
+            {% endif %}
+          >
+            Baritonsaxofoon
+          </option>
+          <option
+            value="Trompet"
+            {% if soort == 'Trompet' %}
+              selected
+            {% endif %}
+          >
+            Trompet
+          </option>
+          <option
+            value="Trombone"
+            {% if soort == 'Trombone' %}
+              selected
+            {% endif %}
+          >
+            Trombone
+          </option>
+          <option
+            value="Hobo"
+            {% if soort == 'Hobo' %}
+              selected
+            {% endif %}
+          >
+            Hobo
+          </option>
+          <option
+            value="Bugel"
+            {% if soort == 'Bugel' %}
+              selected
+            {% endif %}
+          >
+            Bugel
+          </option>
+          <option
+            value="Klarinet"
+            {% if soort == 'Klarinet' %}
+              selected
+            {% endif %}
+          >
+            Klarinet
+          </option>
+        </optgroup>
+
+        <optgroup label="Toets">
+          <option
+            value="Keyboard"
+            {% if soort == 'Keyboard' %}
+              selected
+            {% endif %}
+          >
+            Keyboard
+          </option>
+        </optgroup>
+
+        <optgroup label="Slag">
+          <option
+            value="Darbukha"
+            {% if soort == 'Darbukha' %}
+              selected
+            {% endif %}
+          >
+            Darbukha
+          </option>
+          <option
+            value="Cajon"
+            {% if soort == 'Cajon' %}
+              selected
+            {% endif %}
+          >
+            Cajon
+          </option>
+        </optgroup>
+
+        <optgroup label="Overig">
+          <option
+            value="Accordeon"
+            {% if soort == 'Accordeon' %}
+              selected
+            {% endif %}
+          >
+            Accordeon
+          </option>
+        </optgroup>
+      </select>
+    </form>
+  </nav>
+
+  <section class="instrument-table-section">
+    <p>{{ aantalResultaten }} resultaten gevonden instrumenten gevonden</p>
+    <table class="instrument-table">
+      <thead>
+        <tr>
+          <th scope="col">Naam instrument</th>
+          <th scope="col">Serienummer</th>
+          <th scope="col">Type</th>
+          <th scope="col">Merk</th>
+          <th scope="col">Eigendom van</th>
+          <th scope="col">Status</th>
+          <th scope="col">Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for instrument in instrumenten %}
+          <tr id="{{ instrument.key }}">
+            <td scope="row">{{ instrument.name }}</td>
+            <td>{{ instrument.serial_number | default: 'Onbekend' }}</td>
+            <td>{{ instrument.type | default: 'Onbekend' }}</td>
+            <td>{{ instrument.brand | default: 'Onbekend' }}</td>
+            <td>{{ instrument.property | default: 'Onbekend' }}</td>
+            <td class="td-status">
+              {% assign status_class = '' %}
+              {% case instrument.status %}
+                {% when 'Beschikbaar' %}
+                  {% assign status_class = 'status-available' %}
+                {% when 'In reparatie' %}
+                  {% assign status_class = 'status-repair' %}
+                {% when 'Uitgeleend' %}
+                  {% assign status_class = 'status-borrowed' %}
+                {% else %}
+                  {% assign status_class = 'status-unknown' %}
+              {% endcase %}
+
+              <span class="status-label {{ status_class }}">
+                {% case instrument.status %}
+                  {% when 'Beschikbaar' -%}
+                    Beschikbaar
+                  {% when 'In reparatie' -%}
+                    In Reparatie
+                  {% when 'Uitgeleend' -%}
+                    Uitgeleend
+                  {% else -%}
+                    Onbekend
+                {% endcase %}
+              </span>
+            </td>
+            <td><a class="table-link" href="/instrumenten/{{ instrument.key }}">detail</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</main>
+
+{% endblock %}

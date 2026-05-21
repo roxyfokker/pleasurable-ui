@@ -1,0 +1,103 @@
+{% layout 'layouts/base.liquid'%}
+
+{% block breadcrumbs %}
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/instrumenten">Instrumenten</a></li>
+      <li><a href="/instrumenten/{{ instrument.key }}">{{ instrument.key }}</a></li>
+      <li><a href="/instrumenten/{{ instrument.key }}/schade">Schade</a></li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+<main>
+    <form class="form schade" action="/instrumenten/{{ instrument.key }}/schade" method="post">
+
+        <legend>Instrument schade melden</legend>
+
+        <label>
+            Wie meld de schade?
+             <input type="text" name="reported_by" placeholder="Docent naam" required>
+        </label>
+        <label>
+            Wie heeft de schade veroorzaakt?
+            <input type="text" name="performed_by" placeholder="Naam schuldige" required>
+        </label>
+        <label for="beschrijving" class="input-veld"> Beschrijf de schade
+            <textarea id="beschrijving" name="beschrijving" placeholder="Beschrijf hier de schade..."
+                required></textarea>
+        </label>
+
+        <!-- komt later misschien -->
+        <!-- <label for="foto" class="input-foto">
+            Voeg een foto toe van de schade (optioneel)
+            <input type="file" id="foto" name="foto" accept="image/*">
+        </label> -->
+
+        <input type="hidden" name="id" value="{{ instrument.id }}">
+        <input type="hidden" name="key" value="{{ instrument.key }}">
+        <input type="hidden" name="actie" value="Schade melden">
+
+        <section class="button-box">
+            <button class="btn btn-secondary" type="reset">Wissen</button>
+            <button class="btn btn-primary" type="submit">
+            {% if melding == 'success' %}✅ Schade is gemeld!
+            {% elsif melding == 'error' %}❌ Er ging iets mis!
+            {% else %}Schade melden
+            {% endif %}
+        </button>
+        </section>
+    </form>
+</main>
+
+<script type="module">
+
+    const schadeForm = document.querySelector(".schade")
+    const schadeBtn = schadeForm.querySelector(".btn-primary")
+
+    schadeForm.addEventListener("submit", async function(event) {
+
+        event.preventDefault()
+
+        schadeBtn.classList.add("loading")
+        schadeBtn.classList.remove("error") // Verwijder oude error class indien aanwezig
+        schadeBtn.textContent = "laden..."
+        schadeBtn.disabled = true // Voorkom dubbele clicks
+
+        try {
+            let formData = new FormData(schadeForm);
+
+            const response = await fetch(schadeForm.action, {
+                method: schadeForm.method,
+                body: new URLSearchParams(formData)
+            })
+
+            if (!response.ok) {
+                throw new Error('Er ging iets mis op de server.')
+            }
+
+            const responseData = await response.text()
+
+            const parser = new DOMParser()
+            const responseDOM = parser.parseFromString(responseData, 'text/html')
+
+            // Succes state
+            schadeBtn.classList.remove("loading")
+            schadeBtn.textContent = "✅ Schade is gemeld!"
+
+        } catch (error) {
+            // Error state
+            console.error("Fout tijdens versturen:", error)
+            
+            schadeBtn.classList.remove("loading")
+            schadeBtn.classList.add("error") // Voeg een error class toe voor CSS styling
+            schadeBtn.textContent = "Oeps! Probeer het opnieuw."
+
+        } finally {
+            schadeBtn.disabled = false
+        }
+    })
+</script>
+{% endblock %}

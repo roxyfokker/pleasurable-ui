@@ -5,9 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheet.css">
     <link rel="stylesheet" href="/sprint-11.css">
+    <link rel="stylesheet" href="/uitlenen.css">
+    <link rel="stylesheet" href="/schade.css">
+    <link rel="stylesheet" href="/overzicht.css">
+    <link rel="stylesheet" href="/actielog.css">
+    <link rel="stylesheet" href="/home.css">
+    
     <title>{{ title | default: "PreludeFonds" }}</title>
 </head>
 <body>
+    <header class="logo">
+      <a href="/">
+        <img src="/assets/logo/image.svg" class="logo-img" alt="cool kunst en cultuur" width="600" height="400">
+        <h1 class="logo-text">PreludeFonds</h1></a>
+
+        {% block breadcrumbs %}{% endblock %}
+    </header>
+    
     {% block content %}{% endblock %}
+
 </body>
 </html>   

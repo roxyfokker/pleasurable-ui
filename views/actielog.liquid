@@ -1,7 +1,128 @@
-<section>
+{% layout 'layouts/base.liquid'%}
+
+{% block breadcrumbs %}
+  <nav class="breadcrumbs">
     <ol>
-        <li>
-            {% for log in logs %}
-        </li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/actielog">Actielog</li>
     </ol>
-</section>
+  </nav>
+{% endblock %}
+
+{% block content %}
+    <h1 class="actielog-h1">
+        Activiteiten
+    </h1>
+    <nav class="actielog-filters">
+        <p>Filters:</p>
+        <a href="/actielog" class="{% if activeFilter == nil %}actief{% endif %}">Alles</a>
+        <a href="/actielog?filter=Uitlenen" class="{% if activeFilter == 'Uitlenen' %}actief{% endif %}">Uitlenen</a>
+        <a href="/actielog?filter=Innemen" class="{% if activeFilter == 'Innemen' %}actief{% endif %}">Innemen</a>
+        <a href="/actielog?filter=Schade" class="{% if activeFilter == 'Schade' %}actief{% endif %}">Schade</a>
+        <a href="/actielog?filter=Toevoegen" class="{% if activeFilter == 'Toevoegen' %}actief{% endif %}">Instrument toevoegen</a>
+        <a href="/actielog?filter=Aanpassen" class="{% if activeFilter == 'Aanpassen' %}actief{% endif %}">Instrument aanpassen</a>
+    </nav>
+
+    <main class="actielog-main-list">
+        <ol class="log-list">
+            {% if logs.size == 0 %}
+                <section class="empty-state">
+                    <p>Er zijn nog geen activiteiten van het type '{{ activeFilter }}'.</p> 
+                    <p>Deze verschijnen hier zodra ze worden uitgevoerd in de uitleentool.</p> 
+                    <a href="/actielog">Bekijk alle activiteiten</a>
+                </section>
+            {% else %}
+                {% assign today = 'now' | date: '%Y-%m-%d' %}
+                {% assign yesterday = 'now' | date: '%s' | minus: 86400 | date: '%Y-%m-%d' %}
+                {% assign currentDay = '' %}
+
+                {% for log in logs %}
+                    {% assign logDay = log.date_created | date: '%Y-%m-%d' %}
+
+                    {% if logDay != currentDay %}
+                        {% assign currentDay = logDay %}
+
+                        <h2 class="log-date-header">
+                            {% if logDay == today %}
+                                Vandaag 
+                            {% elsif logDay == yesterday %}
+                                Gisteren 
+                            {% else %}
+                                {{ log.date_created | date: "%d %B %Y" }} 
+                            {% endif %}
+                        </h2>
+                    {% endif %}
+                    
+                    <li>
+                        <article>
+                            <span class="log-action-icon" aria-hidden="true">
+                                {% case log.type_action %}
+                                    {% when 'Uitlenen' %}
+                                        <img src="/assets/icons/uitlenen.svg" alt="">
+                                    {% when 'Innemen' %}
+                                        <img src="/assets/icons/innemen.svg" alt="">
+                                    {% when 'Schade' %}
+                                        <img src="/assets/icons/schade.svg" alt="">
+                                    {% when 'Toevoegen' %}
+                                        <img src="/assets/icons/toevoegen.svg" alt="">
+                                    {% when 'Aanpassen' %}
+                                        <img src="/assets/icons/aanpassen.svg" alt="">
+                                    {% when 'Verwijderen' %}
+                                        <img src="/assets/icons/verwijderen.svg" alt="">
+                                    {% else %}
+                                        <img src="/assets/icons/Onbekend.svg" alt="">
+                                {% endcase %}
+                            </span>
+
+                            <section class="log-details">
+                                <h3 class="log-action"><a href="/instrumenten/{{ log.instrument.key }}">{{ log.type_action | default: 'Onbekend' }}</a></h3>
+
+                                <dl class="action-instrument">
+                                    <dt class="sr-only">Instrument</dt>
+                                    <dd>{{ log.instrument.name | default: 'Onbekend' }}</dd>
+                                    <dd># {{ log.instrument.serial_number | default: 'Onbekend' }}</dd>
+                                </dl>
+
+                                <dl class="log-parties">
+                                    {% case log.type_action %}
+                                        {% when 'Uitlenen' %}
+                                        <dt>Uitgeleend door:</dt>
+                                        <dd>{{ log.performed_by | default: 'Onbekend' }}</dd>
+                                        <dt>Aan</dt>
+                                        <dd>{{ log.involved_party | default: 'Onbekend' }}</dd>
+
+                                        {% when 'Innemen' %}
+                                        <dt>Ingenomen door:</dt>
+                                        <dd>{{ log.performed_by | default: 'Onbekend' }}</dd>
+                                        <dt>Van</dt>
+                                        <dd>{{ log.involved_party | default: 'Onbekend' }}</dd>
+
+                                        {% when 'Schade' %}
+                                        <dt>Schade gemeld door:</dt>
+                                        <dd>{{ log.performed_by | default: 'Onbekend' }}</dd>
+                                        <dt>Ontstaan bij</dt>
+                                        <dd>{{ log.involved_party | default: 'Onbekend' }}</dd>
+
+                                        {% when 'Toevoegen', 'Aanpassen', 'Verwijderen' %}
+                                        <dt>Door:</dt>
+                                        <dd>{{ log.performed_by | default: 'Onbekend' }}</dd>
+
+                                        {% else %}
+                                        <dt>Door:</dt>
+                                        <dd>{{ log.performed_by | default: 'Onbekend' }}</dd>
+                                        <dt>Aan:</dt>
+                                        <dd>{{ log.involved_party | default: 'Onbekend' }}</dd>
+                                    {% endcase %}
+                                </dl>
+                            </section>
+
+                            <time class="log-time" datetime="{{ log.date_created }}">{{ log.date_created | date: "%H:%M" }}</time>
+                        </article>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ol>
+    </main>
+
+
+{% endblock %}
