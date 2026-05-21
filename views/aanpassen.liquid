@@ -10,5 +10,26 @@
   </nav>
 {% endblock %}
 {% block content %}
+<main>
+  <form class="form schade" action="/instrumenten/{{ instrument.key }}/schade" method="post">
+    <legend>instrument aanpassen</legend>
 
+    <label>Wie voert de aanpassing uit?
+      <input type="text" name="performed_by" placeholder="Naam aanpasser" required>
+    </label>
+
+    <label>Overige opmerkingen
+      <textarea id="beschrijving" name="beschrijving" placeholder="Beschrijf hier eventuele opmerkingen..."></textarea>
+    </label>
+
+    <section class="button-box">
+      <button class="btn btn-secondary" type="reset">Wissen</button>
+      <button class="btn btn-primary" type="submit">
+        {% if melding == 'success' %}✅ Aanpassing is doorgevoerd!
+        {% elsif melding == 'error' %}❌ Er ging iets mis!
+        {% else %}Aanpassing doorvoeren
+        {% endif %}
+    </button>
+  </form>
+</main>
 {% endblock %}
