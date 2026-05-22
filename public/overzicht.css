@@ -1,9 +1,74 @@
+.zoek-knop {
+    padding: 0.8rem var(--spacing-lg);
+    background: var(--color-brand-lightest);
+    color: var(--color-brand-darker);
+    border: var(--border-width-sm) solid var(--color-brand-darkest);
+    border-radius: var(--spacing-md);
+    cursor: pointer;
+    font-weight: bold;
+    font-family: akkuratreg, sans-serif;
+    margin: 0;
+
+        @media (min-width: 48rem) {
+            padding: .6rem var(--spacing-md);
+        }
+
+    &.zoeken {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        width: 100%;
+        box-sizing: border-box;
+
+        @media (min-width: 30rem) {
+            width: auto;
+        }
+
+        & input, 
+        & button {
+            background-color: transparent;
+            border: none;
+            color: inherit;
+            font: inherit;
+            padding: 0;
+        }
+      
+            & input {
+                flex: 1;
+                min-width: 0;
+            }
+        
+
+                & button {
+                    cursor: pointer;
+                    font-weight: bold;
+                }
+        }
+    }
+
 .overzicht {
-    padding: 0 var(--spacing-md);
+    padding: var(--spacing-md);
+
+    .zoek-balk{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);   
+    
+    @media (min-width: 30rem) {
+        flex-direction: row-reverse;
+        align-items: stretch;
+    }
+    }
 
     .filters {
+        margin-bottom: 0;
         width: 100%;
-        margin-bottom: 2rem;
+
+            @media (min-width: 30rem) {
+                width: auto;
+            }
 
         .mobile-only-form {
             display: block;
@@ -30,14 +95,7 @@
                 align-items: center;
                 justify-content: space-between;
                 width: 250px;
-                padding: 0.8rem var(--spacing-lg);
-                background: var(--color-brand-lightest);
-                color: var(--color-brand-darker);
-                border: var(--border-width-sm) solid var(--color-brand-darkest);
-                border-radius: var(--spacing-md);
-                cursor: pointer;
-                font-weight: bold;
-                font-family: akkuratreg, sans-serif;
+               
 
                 &::-webkit-details-marker {
                     display: none;
@@ -76,7 +134,7 @@
             position: absolute;
             top: 100%;
             left: 0;
-            right: 0;
+            width: min(700px, 90vw);
             background: var(--color-brand-lightest);
             border: var(--border-width-sm) solid var(--color-brand-darkest);
             border-radius: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
@@ -110,10 +168,11 @@
             .grid {
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
+                gap: var(--spacing-lg);
 
                 section {
                     border-left: var(--border-width-sm) solid var(--color-brand-darkest);
-                    padding: 0 var(--spacing-lg);
+                    padding: 0 var(--spacing-sm);
 
                     &:first-of-type {
                         border-left: none;
@@ -157,7 +216,7 @@
 
         .mobile-btn {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.8rem 2.5rem 0.8rem 0.8rem;
             background: var(--color-brand-lightest);
             color: var(--color-brand-darker);
             border: var(--border-width-sm) solid var(--color-brand-darkest);
