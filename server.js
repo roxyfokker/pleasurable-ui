@@ -105,9 +105,44 @@ app.get('/instrumenten/nieuw', async function (request, response) {
   response.render('nieuw.liquid')
 })
 
-app.post('/instrumenten/nieuw', async function (request, response){
-  response.redirect(303, `/instrumenten/`)
+app.post('/instrumenten/nieuw', async function(request, response) { 
+  //maak slug van de naam
+  const baseSlug = request.body.name.toLowerCase()
+  .replace(/\s+/g, '-')            // spaties worden streepjes
+  .replace(/[^a-z0-9-]/g, '')    //verwijder rare tekens
+
+  // check of er al instrumenten met deze slugestaan 
+
+  const bestaandResponse = await fetch (`${baseUrl}?fields=key&limit=-1`)
+  const bestaandJSON = await bestaandResponse.json()
+  const matchingKeys = bestaandJSON.data
+    .map(item => item.key)
+    .filter(k => k && k.startsWith(baseSlug))
+
+    //voeg nummer toe als er al een met dezelfde slug bestaat
+    const nummer = String(matchingKeys.length + 1).padStart(2, '0')
+    const nieuweKey = `${baseSlug}-${nummer}`
+
+
+  await fetch(baseUrl, {
+    method: 'POST', 
+    body: JSON.stringify({
+      name: request.body.name,
+      serial_number: request.body.serial_number,
+      type: request.body.type,
+      brand: request.body.brand,
+      property: request.body.property,
+      status: 'Beschikbaar',
+      key: nieuweKey
+    }),
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    }
+  })
+
+  response.redirect(303, '/instrumenten')
 })
+
 
 app.get('/actielog', async function (request, response) {
   const params = new URLSearchParams()
