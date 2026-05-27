@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/stylesheet.css">
+<link rel="stylesheet" href="/overzicht.css">
+
+<table class="instrument-table">
+  <thead>
+    <tr>
+      <th scope="col">Naam instrument</th>
+      <th scope="col">Serienummer</th>
+      <th scope="col">Type</th>
+      <th scope="col">Merk</th>
+      <th scope="col">Eigendom van</th>
+      <th scope="col">Status</th>
+      <th scope="col">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for instrument in instrumenten %}
+      <tr id="{{ instrument.key }}">
+        <td scope="row">{{ instrument.name }}</td>
+        <td>{{ instrument.serial_number | default: 'Onbekend' }}</td>
+        <td>{{ instrument.type | default: 'Onbekend' }}</td>
+        <td>{{ instrument.brand | default: 'Onbekend' }}</td>
+        <td>{{ instrument.property | default: 'Onbekend' }}</td>
+        <td class="td-status">
+          {% assign status_class = '' %}
+          {% case instrument.status %}
+            {% when 'Beschikbaar' %}
+              {% assign status_class = 'status-available' %}
+            {% when 'In reparatie' %}
+              {% assign status_class = 'status-repair' %}
+            {% when 'Uitgeleend' %}
+              {% assign status_class = 'status-borrowed' %}
+            {% else %}
+              {% assign status_class = 'status-unknown' %}
+          {% endcase %}
+
+          <span class="status-label {{ status_class }}">
+            {% case instrument.status %}
+              {% when 'Beschikbaar' -%}
+                Beschikbaar
+              {% when 'In reparatie' -%}
+                In Reparatie
+              {% when 'Uitgeleend' -%}
+                Uitgeleend
+              {% else -%}
+                Onbekend
+            {% endcase %}
+          </span>
+        </td>
+        <td><a class="table-link" href="/instrumenten/{{ instrument.key }}">detail</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

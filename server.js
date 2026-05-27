@@ -52,6 +52,9 @@ app.get('/', async function (request, response) {
   const instrumentResponseJSON = await instrumentResponse.json()
   const allInstruments = instrumentResponseJSON.data
 
+  const logResponse = await fetch(`${logUrl}?${params.toString()}`)
+  const logResponseJSON = await logResponse.json()
+
   const totalItems       = allInstruments.length
   const totalPrelude     = allInstruments.filter(instrument => instrument.property?.toLowerCase() === 'preludefonds').length
   const totalAnders      = allInstruments.filter(instrument => instrument.property && instrument.property.toLowerCase() !== 'preludefonds').length
@@ -69,8 +72,18 @@ app.get('/', async function (request, response) {
     totalBeschikbaar,
     totalUitgeleend,
     totalReparatie,
+    logs: logResponseJSON.data, 
     instruments: instruments
+  })
+})
 
+app.get('/instrumenten/table', async function (request, response) {
+  const params = new URLSearchParams()
+  const instrumentResponse = await fetch(`${baseUrl}?${params.toString()}`)
+  const instrumentResponseJSON = await instrumentResponse.json()
+
+  response.render('partials/table.liquid', {
+    instrumenten: instrumentResponseJSON.data
   })
 })
 
@@ -125,6 +138,19 @@ app.get('/actielog', async function (request, response) {
   response.render('actielog.liquid', { 
     logs: logResponseJSON.data, 
     activeFilter: filter 
+  })
+})
+
+app.get('/actielog/preview', async function (request, response) {
+  const params = new URLSearchParams()
+  params.append('fields', '*,instrument.name,instrument.serial_number,instrument.key')
+  params.append('sort', '-date_created')
+
+  const logResponse = await fetch(`${logUrl}?${params.toString()}`)
+  const logResponseJSON = await logResponse.json()
+
+  response.render('partials/actielog-preview.liquid', { 
+    logs: logResponseJSON.data
   })
 })
 
