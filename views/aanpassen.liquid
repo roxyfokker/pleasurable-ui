@@ -40,4 +40,46 @@
     </button>
   </form>
 </main>
+
+    <script type="module">
+        const aanpassenForm = document.querySelector(".aanpassen")
+        const aanpassenBtn = aanpassenForm.querySelector("button[type='submit']")
+
+        aanpassenForm.addEventListener("submit", async function(event) {
+            event.preventDefault()
+
+            // Loading state
+            aanpassenBtn.classList.add("loading")
+            aanpassenBtn.classList.remove("error")
+            aanpassenBtn.textContent = "laden..."
+            aanpassenBtn.disabled = true
+
+            try {
+            let formData = new FormData(aanpassenForm)
+            const response = await fetch(aanpassenForm.action, {
+                method: aanpassenForm.method,
+                body: new URLSearchParams(formData)
+            })
+
+            if (!response.ok) {
+                throw new Error('Er ging iets mis op de server.')
+            }
+
+            // Succes state
+            aanpassenBtn.classList.remove("loading")
+            aanpassenBtn.textContent = "✅ Aanpassing is doorgevoerd!"
+
+            } catch (error) {
+            console.error("Fout tijdens versturen:", error)
+
+            // Error state
+            aanpassenBtn.classList.remove("loading")
+            aanpassenBtn.classList.add("error")
+            aanpassenBtn.textContent = "Oeps! Probeer het opnieuw."
+
+            } finally {
+            aanpassenBtn.disabled = false
+            }
+        })
+    </script>
 {% endblock %}
