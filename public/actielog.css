@@ -187,3 +187,11 @@ article {
         }
     }
 }
+
+@view-transition {
+  navigation: auto;
+}
+
+.log-list {
+  view-transition-name: actielog-lijst;
+}
