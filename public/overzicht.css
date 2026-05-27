@@ -1,3 +1,23 @@
+.knop-toevoegen {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+
+    padding: 0.8rem var(--spacing-lg);
+    background: var(--color-brand-lightest);
+    color: var(--color-brand-darker);
+    border: var(--border-width-sm) solid var(--color-brand-darkest);
+    border-radius: var(--spacing-md);
+    cursor: pointer;
+    font-weight: bold;
+    font-family: akkuratreg, sans-serif;
+    margin: 0;
+    text-decoration: none;
+
+    width: fit-content;
+    margin-left: auto;
+}
+
 .zoek-knop {
     padding: 0.8rem var(--spacing-lg);
     background: var(--color-brand-lightest);

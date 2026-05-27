@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/fdnd-task/pleasurable-ui#readme",
   "dependencies": {
+    "compression": "^1.8.1",
     "express": "^5.0.1",
     "liquidjs": "^10.21.0"
   }
