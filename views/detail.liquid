@@ -1,3 +1,4 @@
+{% assign page = "detail" %}
 {% layout 'layouts/base.liquid' %}
 
 {% block breadcrumbs %}
@@ -14,7 +15,7 @@
 
 <main class="detail">
   <header>
-    <h1>{{ instrument.name }}</h1>
+    <h1 style="view-transition-name:name-{{ instrument.id }}; view-transition-class:vt-name;" id="h1">{{ instrument.name }}</h1>
     <h2>{{ instrument.instrument }}</h2>
   </header>
 
@@ -28,7 +29,7 @@
         src="https://fdnd-agency.directus.app/assets/{{ instrument.photo }}?fit=cover&format=jpg&quality=25" alt="{{ instrument.name }}" fetchpriority="high" width="456" height="320">
     </picture>
 
-    <span class="status">{{ instrument.status | default: 'Onbekend' }}</span>
+    <span class="status"  style="view-transition-name:status-{{ instrument.id }}; view-transition-class:vt-status;">{{ instrument.status | default: 'Onbekend' }}</span>
   </div>
 
   <section>

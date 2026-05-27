@@ -311,7 +311,7 @@
 </div>
   <section class="instrument-table-section">
     <p>{{ aantalResultaten }} resultaten gevonden instrumenten gevonden</p>
-    <table class="instrument-table">
+    <table class="instrument-table" id="table">
       <thead>
         <tr>
           <th scope="col">Naam instrument</th>
@@ -326,7 +326,7 @@
       <tbody>
         {% for instrument in instrumenten %}
           <tr id="{{ instrument.key }}">
-            <td scope="row">{{ instrument.name }}</td>
+            <td scope="row"><span style="view-transition-name:name-{{ instrument.id }}; view-transition-class:vt-name;">{{ instrument.name }}</span></td>
             <td>{{ instrument.serial_number | default: 'Onbekend' }}</td>
             <td>{{ instrument.type | default: 'Onbekend' }}</td>
             <td>{{ instrument.brand | default: 'Onbekend' }}</td>
@@ -344,7 +344,7 @@
                   {% assign status_class = 'status-unknown' %}
               {% endcase %}
 
-              <span class="status-label {{ status_class }}">
+              <span class="status-label {{ status_class }}" style="view-transition-name:status-{{ instrument.id }}; view-transition-class:vt-status;">
                 {% case instrument.status %}
                   {% when 'Beschikbaar' -%}
                     Beschikbaar

@@ -58,9 +58,9 @@ app.get('/', async function (request, response) {
 app.get('/instrumenten', async function (request, response) {
   const params = new URLSearchParams()
 
-  const sort = request.query.sort || '-id'
+  const sort = request.query.sort || 'id'
   params.append('sort', sort)
-  params.append('fields', 'name,serial_number,type,brand,property,status,key')
+  params.append('fields', 'id,name,serial_number,type,brand,property,status,key')
 
   const soort = request.query.instrument
 
@@ -83,8 +83,11 @@ app.get('/instrumenten', async function (request, response) {
     aantalResultaten: instrumentResponseJSON.data.length })
 })
 
+
 app.get('/instrumenten/nieuw', async function (request, response) {
-  response.render('nieuw.liquid')
+  const types = ['Snaarinstrument', 'Blaasinstrument', 'Toetsinstrument', 'Slagwerk', 'Overig']
+
+  response.render('nieuw.liquid', { types, page: 'nieuw' })
 })
 
 app.post('/instrumenten/nieuw', async function(request, response) { 
@@ -117,9 +120,20 @@ app.post('/instrumenten/nieuw', async function(request, response) {
       status: 'Beschikbaar',
       key: nieuweKey
     }),
+
     headers: {
-      'content-type': 'application/json;charset=UTF-8'
+      'Content-type': 'application/json;charset=UTF-8'
     }
+  })
+
+  await fetch(logUrl, {
+    method: 'POST',
+    body: JSON.stringify({
+      type_action: 'Toevoegen',
+      performed_by: request.body.performed_by,
+      instrument: nieuweKey
+    }),
+    headers: { 'Content-Type': 'application/json;charset=UTF-8' }
   })
 
   response.redirect(303, '/instrumenten')

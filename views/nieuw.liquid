@@ -15,32 +15,43 @@
     <h1>Instrument Toevoegen</h1>
 
     <form action="/instrumenten/nieuw" method="POST" class="instrument-form">
-        <div class="form-veld">
-            <label for="name">Naam Instrument</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-    
-        <div class="form-veld">
-            <label for="serial-number">Serienummer</label>
-            <input type="text" id="serial_number" name="serial_number" required>
-        </div>
+      <div class="form-velden">
+        <label>
+          <span>Naam instrument</span>
+          <input type="text" name="name" required>
+        </label>
 
-        <div class="form-veld">
-            <label for="type">Type</label>
-            <input type="text" id="type" name="type" required>
-        </div>
+        <label>
+          <span>Serienummer</span>
+          <input type="text" name="serial_number" required>
+        </label>
 
-        <div class="form-veld">
-            <label for="brand">Merk</label>
-            <input type="text" id="brand" name="brand" required>
-        <div>
+        <label>
+          <span>Type</span>
+          <select id="type" name="type" required>
+            {% for type in types %}
+              <option value="{{ type }}">{{ type }}</option>
+              {% endfor %}
+          </select>
+        </label>
 
-        <div class="form-veld">
-            <label for="property">Eigendom van</label>
-            <input type="text" id="property" name="property" required>
-        </div>
+        <label>
+          <span>Merk</span>
+          <input type="text" name="brand" required>
+        </label>
 
-        <button type="submit" class="knop-toevoegen">Instrument toevoegen</button>
+        <label>
+          <span>Eigendom van</span>
+          <input type="text" name="property" required>
+        </label>
+
+        <label>
+          <span>Toegevoegd door:</span>
+          <input type="text" name="performed_by" required>
+        </label>
+      </div>
+
+     <button type="submit" class="knop-toevoegen">Instrument toevoegen</button>
 
     </form>
 </main>
