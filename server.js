@@ -27,23 +27,6 @@ app.set('views', './views')
 const baseUrl = 'https://fdnd-agency.directus.app/items/preludefonds_instruments/'
 const logUrl = 'https://fdnd-agency.directus.app/items/preludefonds_log'
 
-async function haalInstrumenten(zoekterm, status) {
-  let apiUrl = baseUrl
-  
-  if (zoekterm) {
-    apiUrl += `?filter[name][_icontains]=${zoekterm}`
-  }
-  
-  if (status) {
-    apiUrl += zoekterm ? '&' : '?'
-    apiUrl += `filter[status][_eq]=${status}`
-  }
-
-  const apiResponse = await fetch(apiUrl)
-  const apiResponseJSON = await apiResponse.json()
-  return apiResponseJSON.data
-}
-
 app.get('/', async function (request, response) {
   const params = new URLSearchParams()
   params.append('limit', '-1')
@@ -58,9 +41,6 @@ app.get('/', async function (request, response) {
   const totalBeschikbaar = allInstruments.filter(instrument => instrument.status?.toLowerCase() === 'beschikbaar').length
   const totalUitgeleend  = allInstruments.filter(instrument => instrument.status?.toLowerCase() === 'uitgeleend').length
   const totalReparatie   = allInstruments.filter(instrument => instrument.status?.toLowerCase() === 'in reparatie').length
-  const zoekterm = request.query.zoeken
-  const status = request.query.status
-  const instruments = await haalInstrumenten(zoekterm, status)
 
   response.render('home.liquid', {
     totalItems,
@@ -69,8 +49,6 @@ app.get('/', async function (request, response) {
     totalBeschikbaar,
     totalUitgeleend,
     totalReparatie,
-    instruments: instruments
-
   })
 })
 
