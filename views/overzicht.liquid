@@ -12,10 +12,17 @@
 {% block content %}
 
 <main class="overzicht">
+
+  <div class="zoek-balk">
+    <form class="zoeken zoek-knop" action="/instrumenten" method="get">
+      <input id="zoeken" name="zoeken" type="search" placeholder="Instrument Zoeken">
+        <button type="submit">Zoek</button>
+    </form>
+
   <nav class="filters">
     <form action="/instrumenten" method="GET" class="filter-form desktop-only-form">
       <details class="desktop-details">
-        <summary class="instrument-filter">
+        <summary class="zoek-knop">
           <span>
             {%- if soort == '' %}Filters{% elsif not soort %}Filters{% else %}{{ soort }}{% endif -%}
           </span>
@@ -83,7 +90,7 @@
     </form>
 
     <form action="/instrumenten" method="GET" class="filter-form mobile-only-form">
-      <select name="instrument" onchange="this.form.submit()" class="mobile-btn">
+      <select name="instrument" onchange="this.form.submit()" class="mobile-btn zoek-knop">
         <option
           class="all-option"
           value=""
@@ -295,7 +302,7 @@
       </select>
     </form>
   </nav>
-
+</div>
   <section class="instrument-table-section">
     <p>{{ aantalResultaten }} resultaten gevonden instrumenten gevonden</p>
     <table class="instrument-table">
