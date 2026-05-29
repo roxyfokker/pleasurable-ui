@@ -55,15 +55,25 @@ app.get('/', async function (request, response) {
   })
 })
 
+app.get('/api/stats', async function (request, response) {
+  const params = new URLSearchParams()
+  params.append('limit', '-1')
+  params.append('fields', 'property,status')
+
+  const instrumentResponse = await fetch(`${baseUrl}?${params.toString()}`)
+  const instrumentResponseJSON = await instrumentResponse.json()
+  const allInstruments = instrumentResponseJSON.data
+
+  response.json(instrumentResponseJSON.data)
+})
+
 app.get('/instrumenten', async function (request, response) {
   const params = new URLSearchParams()
 
   const status = request.query.status
-
     if (status) {
     params.set('filter[status][_eq]', status)
   }
-
 
   const sort = request.query.sort || '-id'
   params.append('sort', sort)
@@ -91,6 +101,37 @@ app.get('/instrumenten', async function (request, response) {
     aantalResultaten: instrumentResponseJSON.data.length })
 })
 
+app.get('/api/instrumenten', async function (request, response) {
+  const params = new URLSearchParams()
+
+  const status = request.query.status
+    if (status) {
+    params.set('filter[status][_eq]', status)
+  }
+
+  const sort = request.query.sort || '-id'
+  params.append('sort', sort)
+  params.append('fields', 'id,name,serial_number,type,brand,property,status,key')
+
+  const soort = request.query.instrument
+
+  if (soort) {
+    params.set('filter[instrument][_eq]', soort)
+  }
+  
+  const zoekterm = request.query.zoeken
+  if (zoekterm) {
+    params.append('filter[name][_icontains]', zoekterm)
+  }
+  
+  const instrumentResponse = await fetch(`${baseUrl}?${params.toString()}`)
+  const instrumentResponseJSON = await instrumentResponse.json()
+
+  response.json({
+    instrumenten: instrumentResponseJSON.data,
+    aantalResultaten: instrumentResponseJSON.data.length
+  })
+})
 
 app.get('/instrumenten/nieuw', async function (request, response) {
   const types = ['Snaarinstrument', 'Blaasinstrument', 'Toetsinstrument', 'Slagwerk', 'Overig']
@@ -115,7 +156,6 @@ app.post('/instrumenten/nieuw', async function(request, response) {
     //voeg nummer toe als er al een met dezelfde slug bestaat
     const nummer = String(matchingKeys.length + 1).padStart(2, '0')
     const nieuweKey = `${baseSlug}-${nummer}`
-
 
   await fetch(baseUrl, {
     method: 'POST', 
@@ -147,7 +187,6 @@ app.post('/instrumenten/nieuw', async function(request, response) {
   response.redirect(303, '/instrumenten')
 })
 
-
 app.get('/actielog', async function (request, response) {
   const params = new URLSearchParams()
   params.append('fields', 'type_action,performed_by,involved_party,date_created,instrument.name,instrument.serial_number,instrument.key')
@@ -165,6 +204,22 @@ app.get('/actielog', async function (request, response) {
     logs: logResponseJSON.data, 
     activeFilter: filter 
   })
+})
+
+app.get('/api/actielog', async function (request, response) {
+  const params = new URLSearchParams()
+  params.append('fields', 'type_action,performed_by,involved_party,date_created,instrument.name,instrument.serial_number,instrument.key')
+  params.append('sort', '-date_created')
+
+  const filter = request.query.filter
+  if (filter && filter !== 'alles') {
+    params.append('filter[type_action][_eq]', filter)
+  }
+
+  const logResponse = await fetch(`${logUrl}?${params.toString()}`)
+  const logResponseJSON = await logResponse.json()
+
+  response.json(logResponseJSON.data)
 })
 
 app.get('/instrumenten/:key', async function (request, response) {
