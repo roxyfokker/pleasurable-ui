@@ -15,6 +15,8 @@ In de sprint Pleasurable UI hebben we als team een interface gebouwd voor het Pr
 Als medewerker van Cool Kunst en Cultuur wil ik instrumenten kunnen beheren en uitlenen, zodat ik altijd een actueel overzicht heb van alle instrumenten en activiteiten.
 De Cool Preludefonds-applicatie helpt medewerkers van Cool Kunst en Cultuur om het overzicht van de uitgeleende muziekinstrumenten aan studenten te bewaren. De applicatie is ontworpen voor snel dagelijks gebruik.
 
+---
+
 **Wat kan een gebruiker doen?**
 
 **Instrumenten vinden**
@@ -53,7 +55,9 @@ De Cool Preludefonds-applicatie helpt medewerkers van Cool Kunst en Cultuur om h
 - Via de actielog zie je een chronologisch overzicht van alle uitleningen, innames en aanpassingen
 - Filteren op type actie om specifieke gebeurtenissen te zien
 
-## Kenmerken - Progressive Enhancement
+---
+
+## Kenmerken
 De website is opgebouwd volgens het principe van Progressive Enhancement, verdeeld in vier lagen. We beginnen met een functionele basis die altijd werkt, en bouwen daar laag voor laag enhancements bovenop.
 
 ### Functional laag
@@ -99,6 +103,8 @@ Loading, success en error states
 
 <video src="https://github.com/user-attachments/assets/55045f34-a811-49c4-a784-f34727199150" width="250" autoplay loop muted></video>
 
+---
+
 Button states
 
 De knoppen hebben vier states uitgewerkt: standaard, :hover, :active, :focus-visible en :disabled. 
@@ -107,6 +113,8 @@ Animaties op de knoppen worden alleen afgespeeld als de gebruiker geen voorkeur 
 
 Micro-interacties
 In de formulieren heeft de submit button verschillende states. Zo kan je zien of het uitvoeren van een verandering is gelukt, of er een error is, of dat hij nog aan het laden is. Zo hoef je je niet af te vragen of het versturen van informatie wel goed is gegaan.
+
+---
 
 ## Technisch
 
@@ -132,6 +140,8 @@ Wanneer de CSS niet werkt, is de hele website alsnog bruikbaar. Alle informatie 
 #### Wat gebeurt er als JS niet werkt
 Er zijn geen verschillen in de werking van de website wanneer de JS niet werkt. Dit is omdat de code grotendeels bestaat uit HTML en CSS. Wel is het zo dat de verschillende states in de formulieren niet meer getoond worden. Je ziet dus niet of iets is gelukt of niet, of dat het nog geladen word. Maar het gebruiken van de verschillende formulieren is nog wel mogelijk. 
 
+---
+
 ### Performance
 Bij het ontwikkelen van de website hebben we rekening gehouden met de performance. Daarom hebben we verschillende optimalisaties en technieken toegepast om de gebruikservaring  en snelheid te verbeteren.
 
@@ -141,6 +151,8 @@ Bij het ontwikkelen van de website hebben we rekening gehouden met de performanc
 - Op de detailpagina krijgt de hoofdafbeelding van het instrument ook `fetchpriority="high"`
 - Bij het ophalen van data via de API beperken we de velden tot alleen wat de pagina nodig heeft via de `fields` parameter, zodat er minder data over het netwerk gaat
 - De CSS wordt per pagina apart ingeladen zodat alleen de benodigde styles worden meegestuurd en er geen onnodige render-blocking CSS is
+
+---
   
 ## Installatie
 
