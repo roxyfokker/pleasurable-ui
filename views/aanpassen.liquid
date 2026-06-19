@@ -11,5 +11,76 @@
   </nav>
 {% endblock %}
 {% block content %}
+<main>
+  <form class="form aanpassen" action="/instrumenten/{{ instrument.key }}/aanpassen" method="post">
+    <legend>instrument aanpassen</legend>
 
+    <label>Wie voert de aanpassing uit?
+      <input type="text" name="performed_by" placeholder="Naam aanpasser" required>
+    </label>
+
+    <label>wijzig merk
+      <input type="text" name="merk" placeholder="Nieuw merk">
+    </label>
+
+    <label>wijzig serienummer
+      <input type="text" name="serienummer" placeholder="Nieuw serienummer">
+    </label>
+
+    <label>Overige opmerkingen
+      <textarea id="beschrijving" name="beschrijving" placeholder="Beschrijf hier eventuele opmerkingen..."></textarea>
+    </label>
+
+    <section class="button-box">
+      <button class="btn btn-secondary" type="reset">Wissen</button>
+      <button class="btn btn-primary" type="submit">
+        {% if melding == 'success' %}✅ Aanpassing is doorgevoerd!
+        {% elsif melding == 'error' %}❌ Er ging iets mis!
+        {% else %}Aanpassing doorvoeren
+        {% endif %}
+    </button>
+  </form>
+</main>
+
+    <script type="module">
+        const aanpassenForm = document.querySelector(".aanpassen")
+        const aanpassenBtn = aanpassenForm.querySelector("button[type='submit']")
+
+        aanpassenForm.addEventListener("submit", async function(event) {
+            event.preventDefault()
+
+            // Loading state
+            aanpassenBtn.classList.add("loading")
+            aanpassenBtn.classList.remove("error")
+            aanpassenBtn.textContent = "laden..."
+            aanpassenBtn.disabled = true
+
+            try {
+            let formData = new FormData(aanpassenForm)
+            const response = await fetch(aanpassenForm.action, {
+                method: aanpassenForm.method,
+                body: new URLSearchParams(formData)
+            })
+
+            if (!response.ok) {
+                throw new Error('Er ging iets mis op de server.')
+            }
+
+            // Succes state
+            aanpassenBtn.classList.remove("loading")
+            aanpassenBtn.textContent = "✅ Aanpassing is doorgevoerd!"
+
+            } catch (error) {
+            console.error("Fout tijdens versturen:", error)
+
+            // Error state
+            aanpassenBtn.classList.remove("loading")
+            aanpassenBtn.classList.add("error")
+            aanpassenBtn.textContent = "Oeps! Probeer het opnieuw."
+
+            } finally {
+            aanpassenBtn.disabled = false
+            }
+        })
+    </script>
 {% endblock %}
