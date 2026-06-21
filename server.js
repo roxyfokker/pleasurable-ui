@@ -88,7 +88,9 @@ app.get('/instrumenten', async function (request, response) {
     status: status,
     zoekterm: zoekterm,
     soort: soort,
-    aantalResultaten: instrumentResponseJSON.data.length })
+    aantalResultaten: instrumentResponseJSON.data.length,
+  page: 'overzicht' 
+  })
 })
 
 
