@@ -1,3 +1,34 @@
+.info, .tutorial{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 80vw;
+    margin: auto;
+    align-items: center;
+
+    padding: var(--spacing-md) var(--spacing-md) 0 var(--spacing-md);
+    border: solid var(--border-color-brand) var(--border-width-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+    background-color: var(--color-brand-lightest); 
+    box-shadow: 0px 3px 6px rgba(70, 22, 107, 0.2);   
+
+    details{
+        font-size: var(--font-size-h2);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    summary{
+        cursor: pointer;
+        text-decoration: underline;
+        color: var(--color-text-brand);
+    }
+
+    h2{
+        font-size: var(--font-size-h3);
+    }
+}
+
 /* ------------ Statusoverzicht --------------------------------*/
 
 .main-statusoverzicht{
